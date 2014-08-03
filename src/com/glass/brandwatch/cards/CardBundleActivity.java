@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.glass.brandwatch.cards.data.SentimentData;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
+import com.google.gson.Gson;
 
 public class CardBundleActivity extends Activity{
 	
-	private List<Card> mCards;
+	private List<View> mCards;
     private CardScrollView mCardScrollView;
 
     @Override
@@ -31,28 +34,14 @@ public class CardBundleActivity extends Activity{
     }
 
     private void createCards() {
-        mCards = new ArrayList<Card>();
-
-        Card card;
-
-        card = new Card(this);
-        card.setText("This card has a footer.");
-        card.setFootnote("I'm the footer!");
-        mCards.add(card);
-
-        card = new Card(this);
-        card.setText("This card has a puppy background image.");
-        card.setFootnote("How can you resist?");
-        card.setImageLayout(Card.ImageLayout.FULL);
-//        card.addImage(R.drawable.puppy_bg);
-        mCards.add(card);
-
-        card = new Card(this);
-        card.setText("This card has a mosaic of puppies.");
-        card.setFootnote("Aren't they precious?");
-        card.setImageLayout(Card.ImageLayout.LEFT);
-//        card.addImage(R.drawable.puppy_small_1);
-        mCards.add(card);
+        mCards = new ArrayList<View>();
+        
+        Intent intent = getIntent();
+        String sentimentData = intent.getStringExtra("sentiment_data");
+        mCards.add(SentimentCard.build(this, new Gson().fromJson(sentimentData, SentimentData.Data.class)));
+        
+//        mCards.add(FeaturesCard.build(this));
+//        mCards.add(TopicsCard.build(this));
     }
     
     private class ScrollAdapter extends CardScrollAdapter {
@@ -77,15 +66,15 @@ public class CardBundleActivity extends Activity{
             return Card.getViewTypeCount();
         }
 
-        @Override
-        public int getItemViewType(int position){
-            return mCards.get(position).getItemViewType();
-        }
+//        @Override
+//        public int getItemViewType(int position){
+//            return mCards.get(position).getItemViewType();
+//        }
 
         @Override
         public View getView(int position, View convertView,
                 ViewGroup parent) {
-            return  mCards.get(position).getView(convertView, parent);
+            return  mCards.get(position); //.getView(convertView, parent);
         }
     }
 }

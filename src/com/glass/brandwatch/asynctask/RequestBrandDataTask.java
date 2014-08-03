@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.glass.brandwatch.cards.CardBundleActivity;
+import com.glass.brandwatch.cards.data.SentimentData;
 import com.glass.brandwatch.utils.HttpRequest;
 import com.glass.brandwatch.utils.PropertiesManager;
 import com.google.gson.JsonArray;
@@ -19,7 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class RequestBrandDataTask extends AsyncTask<String, Void, Boolean> {
+public class RequestBrandDataTask extends AsyncTask<String, Void, String> {
 
 	private static final String TAG = "RequestBrandDataTask";
 	private String url;
@@ -31,15 +32,15 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, Boolean> {
     }
 	
 	//Called by execute() - initializes this class
-	protected Boolean doInBackground(String... parameters) {
+	protected String doInBackground(String... parameters) {
 		url = parameters[0];
 		query = parameters[1];
 
 		String queryId = getBrandwatchQueryId(url, query);
-		getSentiment(queryId);
-		getFeatures(query);
-		getTopics(queryId);
-		return true;
+		return getSentiment(queryId);
+		//getFeatures(query);
+		//getTopics(queryId);
+		//return true;
 	}
 
 	//Get id for the requested query from Brandwatch
@@ -65,8 +66,8 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, Boolean> {
 		return queryId;
 	}
 	
-	private void getSentiment(String queryId) {
-		
+	private String getSentiment(String queryId) {
+		return SentimentData.getData(url, queryId);
 	}
 	
 	private void getFeatures(String query) {
@@ -98,17 +99,18 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, Boolean> {
 	}
 
 	//Called after each HTTP request
-	protected void onPostExecute(Boolean success) {
-		if (success) {
+	protected void onPostExecute(String data) {
+		if (data != null) {
 			Log.v(TAG, String.format("Request for '%s' succedeed", query));
-			showCardsActivity();
+			showCardsActivity(data);
 		} else {
 			Log.v(TAG, String.format("Request for '%s' failed", query));
 		}
 	}
 	
-	private void showCardsActivity() {
+	private void showCardsActivity(String data) {
 		Intent intent = new Intent(context, CardBundleActivity.class);
+		intent.putExtra("sentiment_data", data);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
