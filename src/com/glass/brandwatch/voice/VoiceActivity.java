@@ -60,8 +60,8 @@ public class VoiceActivity extends Activity {
 			}
 			
 			//Delegate server request, pass in the URL
-			new RequestBrandDataTask().execute(
-					PropertiesManager.getProperty("server_url"), spokenText);
+			new RequestBrandDataTask(getApplicationContext()).execute(
+					PropertiesManager.getProperty("brandwatch_url"), spokenText);
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
