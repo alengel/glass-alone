@@ -14,19 +14,19 @@ import android.util.Log;
 import com.glass.brandwatch.utils.HttpRequest;
 import com.glass.brandwatch.utils.PropertiesManager;
 
-public class SentimentData {
-	private static String TAG = "SentimentData";
+public class TopicsData {
+	private static String TAG = "TopicsData";
 	
 	public static String getData(String url, String queryId) {
-		Log.i(TAG, String.format("Requesting sentiment data from '%s' for '%s'", getSentimentUrl(url, queryId), queryId));
+		Log.i(TAG, String.format("Requesting topics data from '%s' for '%s'", getTopicsUrl(url, queryId), queryId));
 		
 		//Delegate the GET request to HttpRequest
-		HttpResponse response = HttpRequest.doHttpGet(getSentimentUrl(url, queryId), null);
+		HttpResponse response = HttpRequest.doHttpGet(getTopicsUrl(url, queryId), null);
 		
 		try {
 			String responseString = EntityUtils.toString(response.getEntity());
 			
-			Log.v(TAG, "Requesting Sentiment " + responseString);
+			Log.v(TAG, "Requesting Topics " + responseString);
 			return responseString;
 
 		} catch (Exception e) {
@@ -36,15 +36,15 @@ public class SentimentData {
 		return null;
 	}
 	
-	private static String getSentimentUrl(String url, String queryId) {
+	private static String getTopicsUrl(String url, String queryId) {
 		String brandwatchKey = PropertiesManager.getProperty("brandwatch_auth");
 		String startDate = getDateSevenDaysAgo();
 		String endDate = getDateFormat(new Date());
 		String filters = "&endDate=" + endDate + "&startDate=" + startDate + "&queryId=";
-		String sentimentUrl = "data/volume/months/sentiment/?";
+		String topicsUrl = "data/volume/topics/queries/?";
 		
-		Log.v(TAG, url + sentimentUrl + filters + queryId);
-		return url + sentimentUrl + brandwatchKey + filters + queryId;
+		Log.v(TAG, url + topicsUrl + filters + queryId);
+		return url + topicsUrl + brandwatchKey + filters + queryId;
 	}
 	
 	private static String getDateSevenDaysAgo() {
@@ -58,16 +58,23 @@ public class SentimentData {
 		return sdf.format(date);
 	}
 	
+	//Create a Data class that is a list of topics
 	public class Data {
-		public List<Result> results;
+		public List<Topic> topics;
 	}
 	
-	public class Result {
-		public List<Value> values;
+	//Create a topic class for each topic
+	public class Topic {
+		public String label;
+		public Integer volume;
+		public Sentiment sentiment;
 	}
 	
-	public class Value {
-		public String name;
-		public Integer value;
+	//Create a sentiment class for the sentiment within each topic
+	public class Sentiment {
+		public int negative = 0;
+		public int neutral = 0;
+		public int positive = 0;
 	}
+
 }

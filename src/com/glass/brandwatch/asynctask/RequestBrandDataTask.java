@@ -1,5 +1,6 @@
 package com.glass.brandwatch.asynctask;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ import android.util.Log;
 
 import com.glass.brandwatch.cards.CardBundleActivity;
 import com.glass.brandwatch.cards.data.SentimentData;
+import com.glass.brandwatch.cards.data.TopicsData;
 import com.glass.brandwatch.utils.HttpRequest;
 import com.glass.brandwatch.utils.PropertiesManager;
 import com.google.gson.JsonArray;
@@ -20,7 +22,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class RequestBrandDataTask extends AsyncTask<String, Void, String> {
+public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<String>> {
 
 	private static final String TAG = "RequestBrandDataTask";
 	private String url;
@@ -32,15 +34,18 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, String> {
     }
 	
 	//Called by execute() - initializes this class
-	protected String doInBackground(String... parameters) {
+	protected ArrayList<String> doInBackground(String... parameters) {
+		ArrayList <String> results = new ArrayList<String>();
 		url = parameters[0];
 		query = parameters[1];
 
 		String queryId = getBrandwatchQueryId(url, query);
-		return getSentiment(queryId);
-		//getFeatures(query);
-		//getTopics(queryId);
+		results.add(getSentiment(queryId));
+		//results.add(getFeatures(query));
+		results.add(getTopics(queryId));
 		//return true;
+		
+		return results;
 	}
 
 	//Get id for the requested query from Brandwatch
@@ -70,12 +75,12 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, String> {
 		return SentimentData.getData(url, queryId);
 	}
 	
-	private void getFeatures(String query) {
-		
+	private String getFeatures(String queryId) {
+		return "";
 	}
 
-	private void getTopics(String queryId) {
-	
+	private String getTopics(String queryId) {
+		return TopicsData.getData(url, queryId);
 	}
 	
 	private String getQueryUrl(String url) {
@@ -99,7 +104,7 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, String> {
 	}
 
 	//Called after each HTTP request
-	protected void onPostExecute(String data) {
+	protected void onPostExecute(ArrayList<String> data) {
 		if (data != null) {
 			Log.v(TAG, String.format("Request for '%s' succedeed", query));
 			showCardsActivity(data);
@@ -108,9 +113,9 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, String> {
 		}
 	}
 	
-	private void showCardsActivity(String data) {
+	private void showCardsActivity(ArrayList<String> data) {
 		Intent intent = new Intent(context, CardBundleActivity.class);
-		intent.putExtra("sentiment_data", data);
+		intent.putStringArrayListExtra("data", data);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}

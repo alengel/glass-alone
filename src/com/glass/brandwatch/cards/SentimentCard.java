@@ -17,6 +17,7 @@ public class SentimentCard {
 	public static View build(Context context, SentimentData.Data data) {
 		List<Value> results = data.results.get(0).values;
 		Integer volumeCount = results.get(1).value + results.get(2).value;
+		
 		View view = View.inflate(context, R.layout.sentiment_card, null);
 		
 		TextView volume = (TextView)view.findViewById(R.id.volume);
@@ -28,8 +29,6 @@ public class SentimentCard {
 		TextView negative = (TextView)view.findViewById(R.id.negative);
 		TextView negativeValue = (TextView)view.findViewById(R.id.negative_value);
 		
-		TextView footer = (TextView)view.findViewById(R.id.footer);
-		
 		volume.setText("Volume");
 		volumeValue.setText(volumeCount.toString());
 		
@@ -39,6 +38,7 @@ public class SentimentCard {
 		negative.setText(WordUtils.capitalize(results.get(1).name));
 		negativeValue.setText(results.get(1).value.toString());
 		
+		TextView footer = (TextView)view.findViewById(R.id.sentiment_footer);
 		footer.setText("Brandwatch");
 
 	    return view;

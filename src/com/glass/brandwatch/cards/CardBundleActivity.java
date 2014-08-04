@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.glass.brandwatch.cards.data.SentimentData;
+import com.glass.brandwatch.cards.data.TopicsData;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
@@ -17,8 +18,8 @@ import com.google.gson.Gson;
 
 public class CardBundleActivity extends Activity{
 	
-	private List<View> mCards;
-    private CardScrollView mCardScrollView;
+	private List<View> cardsBundle;
+    private CardScrollView cardScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,39 +27,41 @@ public class CardBundleActivity extends Activity{
 
         createCards();
 
-        mCardScrollView = new CardScrollView(this);
+        cardScrollView = new CardScrollView(this);
         ScrollAdapter adapter = new ScrollAdapter();
-        mCardScrollView.setAdapter(adapter);
-        mCardScrollView.activate();
-        setContentView(mCardScrollView);
+        cardScrollView.setAdapter(adapter);
+        cardScrollView.activate();
+        setContentView(cardScrollView);
     }
 
     private void createCards() {
-        mCards = new ArrayList<View>();
+    	cardsBundle = new ArrayList<View>();
         
         Intent intent = getIntent();
-        String sentimentData = intent.getStringExtra("sentiment_data");
-        mCards.add(SentimentCard.build(this, new Gson().fromJson(sentimentData, SentimentData.Data.class)));
+        String sentimentData = intent.getStringArrayListExtra("data").get(0);
+        String topicsData = intent.getStringArrayListExtra("data").get(1);
         
+        cardsBundle.add(SentimentCard.build(this, new Gson().fromJson(sentimentData, SentimentData.Data.class)));
+        cardsBundle.add(TopicsCard.build(this, new Gson().fromJson(topicsData, TopicsData.Data.class))); 
 //        mCards.add(FeaturesCard.build(this));
-//        mCards.add(TopicsCard.build(this));
+       
     }
     
     private class ScrollAdapter extends CardScrollAdapter {
     	
         @Override
         public int getPosition(Object item) {
-            return mCards.indexOf(item);
+            return cardsBundle.indexOf(item);
         }
         
         @Override
         public int getCount() {
-            return mCards.size();
+            return cardsBundle.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mCards.get(position);
+            return cardsBundle.get(position);
         }
 
         @Override
@@ -74,7 +77,7 @@ public class CardBundleActivity extends Activity{
         @Override
         public View getView(int position, View convertView,
                 ViewGroup parent) {
-            return  mCards.get(position); //.getView(convertView, parent);
+            return  cardsBundle.get(position); //.getView(convertView, parent);
         }
     }
 }
