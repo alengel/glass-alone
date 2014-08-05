@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
+    android:id="@+id/features_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <RelativeLayout
-        android:id="@+id/body_layout"
+        android:id="@+id/features_body_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/glass_card_body_height"
         android:layout_marginLeft="@dimen/glass_card_margin"
@@ -20,41 +20,19 @@
 		    android:stretchColumns="1">
 		    <TableRow>
 		        <TextView
-		            android:id="@+id/volume"
+		            android:id="@+id/features_color"
 		            android:textSize="30sp" />
 		        <TextView
-		            android:id="@+id/volume_value"
+		            android:id="@+id/features_value"
 		            android:textSize="30sp"
 		            android:gravity="right" />
-		    </TableRow>
-		
-		    <TableRow>
-		        <TextView
-		            android:id="@+id/positive"
-		            android:textSize="30sp" />
-		        <TextView
-		            android:id="@+id/positive_value"
-		            android:textSize="30sp"
-		            android:gravity="right"
-		            android:textColor="#FF0000" />
-		    </TableRow>
-		    
-		    <TableRow>
-		        <TextView
-		            android:id="@+id/negative"
-		            android:textSize="30sp" />
-		        <TextView
-		            android:id="@+id/negative_value"
-		            android:textSize="30sp"
-		            android:gravity="right"
-		            android:textColor="#00FF00" />
 		    </TableRow>
 		</TableLayout>
 
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/footer_container"
+        android:id="@+id/features_footer_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
@@ -64,7 +42,7 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/sentiment_footer"
+            android:id="@+id/features_footer"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -73,7 +51,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/timestamp"
+            android:id="@+id/features_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/glass_card_margin"

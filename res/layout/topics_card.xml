@@ -18,58 +18,74 @@
             android:id="@+id/topics2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/topics1"
-            android:layout_toLeftOf="@+id/topics1"
-            android:text="test text" />
+            android:layout_alignRight="@+id/topics3"
+            android:layout_below="@+id/topics7"
+            android:layout_marginRight="19dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/topics4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/topics3"
-            android:text="test text" />
+            android:layout_below="@+id/topics2"
+            android:layout_toLeftOf="@+id/topics7"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/topics6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/topics5"
-            android:layout_toRightOf="@+id/topics4"
-            android:text="test text" />
-
-        <TextView
-            android:id="@+id/topics7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/topics3"
-            android:layout_below="@+id/topics6"
-            android:text="test text" />
-
-        <TextView
-            android:id="@+id/topics3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/topics2"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/topics6"
-            android:text="test text" />
+            android:layout_alignTop="@+id/topics3"
+            android:layout_marginTop="21dp"
+            android:layout_toRightOf="@+id/topics1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/topics5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/topics4"
+            android:layout_below="@+id/topics6"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/topics7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/topics3"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/topics3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/topics1"
-            android:text="test text" />
+            android:layout_marginRight="62dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/topics1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="test text" />
+            android:layout_above="@+id/topics6"
+            android:layout_toLeftOf="@+id/topics2"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TextView" />
 
     </RelativeLayout>
 

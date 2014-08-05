@@ -1,18 +1,32 @@
 package com.glass.brandwatch.cards;
 
-import android.content.Context;
+import java.util.List;
 
-import com.google.android.glass.app.Card;
+import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
+
+import com.glass.brandwatch.R;
+import com.glass.brandwatch.cards.data.FeaturesData;
+import com.glass.brandwatch.cards.data.FeaturesData.Product;
 
 public class FeaturesCard {
 	
-	public static Card build(Context context) {
-		Card card = new Card(context);
-        card.setText("This card has a puppy background image.");
-        card.setFootnote("How can you resist?");
-        card.setImageLayout(Card.ImageLayout.FULL);
-//        card.addImage(R.drawable.puppy_bg);
-        return card;
+	public static View build(Context context, FeaturesData.Data data) {
+		List<Product> products = data.results;
+		
+		View view = View.inflate(context, R.layout.features_card, null);
+		
+		TextView colour = (TextView)view.findViewById(R.id.features_color);
+		TextView colourValue = (TextView)view.findViewById(R.id.features_value);
+		
+		colour.setText("Colour");
+		colourValue.setText(products.get(0).color);
+		
+		TextView footer = (TextView)view.findViewById(R.id.features_footer);
+		footer.setText(products.get(0).name + " Features");
+
+	    return view;
 	}
 	
 }

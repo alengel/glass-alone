@@ -76,5 +76,4 @@ public class TopicsData {
 		public int neutral = 0;
 		public int positive = 0;
 	}
-
 }

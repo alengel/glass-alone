@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.glass.brandwatch.cards.CardBundleActivity;
+import com.glass.brandwatch.cards.data.FeaturesData;
 import com.glass.brandwatch.cards.data.SentimentData;
 import com.glass.brandwatch.cards.data.TopicsData;
 import com.glass.brandwatch.utils.HttpRequest;
@@ -39,11 +40,11 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 		url = parameters[0];
 		query = parameters[1];
 
+		results.add(getFeatures(query));
+		
 		String queryId = getBrandwatchQueryId(url, query);
 		results.add(getSentiment(queryId));
-		//results.add(getFeatures(query));
 		results.add(getTopics(queryId));
-		//return true;
 		
 		return results;
 	}
@@ -75,8 +76,8 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 		return SentimentData.getData(url, queryId);
 	}
 	
-	private String getFeatures(String queryId) {
-		return "";
+	private String getFeatures(String query) {
+		return FeaturesData.getData(query);
 	}
 
 	private String getTopics(String queryId) {

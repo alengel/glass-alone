@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.glass.brandwatch.cards.data.FeaturesData;
 import com.glass.brandwatch.cards.data.SentimentData;
 import com.glass.brandwatch.cards.data.TopicsData;
 import com.google.android.glass.app.Card;
@@ -38,12 +39,13 @@ public class CardBundleActivity extends Activity{
     	cardsBundle = new ArrayList<View>();
         
         Intent intent = getIntent();
-        String sentimentData = intent.getStringArrayListExtra("data").get(0);
-        String topicsData = intent.getStringArrayListExtra("data").get(1);
+        String featuresData = intent.getStringArrayListExtra("data").get(0);
+        String sentimentData = intent.getStringArrayListExtra("data").get(1);
+        String topicsData = intent.getStringArrayListExtra("data").get(2);
         
         cardsBundle.add(SentimentCard.build(this, new Gson().fromJson(sentimentData, SentimentData.Data.class)));
         cardsBundle.add(TopicsCard.build(this, new Gson().fromJson(topicsData, TopicsData.Data.class))); 
-//        mCards.add(FeaturesCard.build(this));
+        cardsBundle.add(FeaturesCard.build(this, new Gson().fromJson(featuresData, FeaturesData.Data.class)));
        
     }
     
@@ -69,15 +71,10 @@ public class CardBundleActivity extends Activity{
             return Card.getViewTypeCount();
         }
 
-//        @Override
-//        public int getItemViewType(int position){
-//            return mCards.get(position).getItemViewType();
-//        }
-
         @Override
         public View getView(int position, View convertView,
                 ViewGroup parent) {
-            return  cardsBundle.get(position); //.getView(convertView, parent);
+            return  cardsBundle.get(position);
         }
     }
 }

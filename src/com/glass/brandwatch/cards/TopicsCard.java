@@ -1,5 +1,7 @@
 package com.glass.brandwatch.cards;
 
+import java.util.Collections;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -8,7 +10,6 @@ import android.widget.TextView;
 
 import com.glass.brandwatch.R;
 import com.glass.brandwatch.cards.data.TopicsData;
-import com.glass.brandwatch.cards.data.TopicsData.Data;
 import com.glass.brandwatch.cards.data.TopicsData.Sentiment;
 import com.glass.brandwatch.cards.data.TopicsData.Topic;
 
@@ -24,31 +25,31 @@ public class TopicsCard {
 //		Data sortedData = sortDataByVolume(data);
 		
 		int count = Math.min(data.topics.size(), 7);
+		int startTextSize = 24;
+		Collections.sort(data.topics, Collections.reverseOrder(new TopicVolumeComparer()));
+		
 		for(int i=1; i<=count; i++) {
 			Topic topic = data.topics.get(i);
 			String layoutId = "topics" + i;
+			
 			Log.v(TAG, "Building layout id " + layoutId);
 			
-			TextView topics1 = (TextView)view.findViewById(context.getResources().getIdentifier(layoutId, "id", context.getPackageName()));
-			topics1.setText(topic.label);
+			//Set the topic text in the view
+			TextView topicView = (TextView)view.findViewById(context.getResources().getIdentifier(layoutId, "id", context.getPackageName()));
+			topicView.setText(topic.label);
 			
+			//Set the text colour according to the most present sentiment
 			Sentiment sentiment = topic.sentiment;
-			setTextColour(sentiment, topics1);
+			setTextColour(sentiment, topicView);
 			
 			//Set the text size according to volume
-//			Integer volume = topic.volume;
-//			topics1.setTextSize(volume/50); 
+			topicView.setTextSize(startTextSize--); 
 		}
 		
 		TextView footer = (TextView)view.findViewById(R.id.topics_footer);
 		footer.setText("Brandwatch");
 		
 		return view;
-	}
-	
-	private static Data sortDataByVolume(Data data) {
-		//TODO: Sort the data by volume here
-		return data;
 	}
 	
 	private static void setTextColour(Sentiment sentiment, TextView topics1) {
