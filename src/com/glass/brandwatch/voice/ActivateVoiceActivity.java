@@ -45,7 +45,7 @@ public class ActivateVoiceActivity extends Activity {
 		return super.onGenericMotionEvent(event);
 	}
 
-	//Activate the voice activity on tap 
+	// Activate the voice activity on tap
 	private GestureDetector createGestureDetector(Context context) {
 		GestureDetector gestureDetector = new GestureDetector(context);
 

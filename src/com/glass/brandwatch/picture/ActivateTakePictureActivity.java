@@ -41,7 +41,7 @@ public class ActivateTakePictureActivity extends Activity {
 
 		// Temporary commented out to avoid API calls
 		Log.i("ActivateTakePictureActivity", "making request");
-//		new Camfind().execute();
+		// new Camfind().execute();
 	}
 
 	/**

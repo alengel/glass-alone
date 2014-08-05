@@ -14,18 +14,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.util.Log;
 
 public class HttpRequest {
-	
+
 	private static final String TAG = "HttpRequest";
-	
-	//Generic HTTP GET request
+
+	// Generic HTTP GET request
 	static public HttpResponse doHttpGet(String url, Header[] headers) {
 		Log.v(TAG, "Sending get request to " + url);
 
 		HttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(url);
-		
-		//Only set headers if required
-		if(headers != null)
+
+		// Only set headers if required
+		if (headers != null)
 			get.setHeaders(headers);
 
 		try {
@@ -37,16 +37,17 @@ public class HttpRequest {
 
 		return null;
 	}
-	
-	//Generic HTTP POST request
-	static public HttpResponse doHttpPost(String url, Header[] headers, List<NameValuePair> parameters) {
+
+	// Generic HTTP POST request
+	static public HttpResponse doHttpPost(String url, Header[] headers,
+			List<NameValuePair> parameters) {
 		Log.v(TAG, "Sending post request to " + url);
-		
+
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
-		
-		//Only set headers if required
-		if(headers != null)
+
+		// Only set headers if required
+		if (headers != null)
 			post.setHeaders(headers);
 
 		try {

@@ -18,9 +18,9 @@ import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 
 public class VoiceActivity extends Activity {
-	
+
 	private static final String TAG = "VoiceActivity";
-	
+
 	// For tap events
 	private GestureDetector mGestureDetector;
 
@@ -44,13 +44,12 @@ public class VoiceActivity extends Activity {
 
 		openVoicePrompt();
 	}
-	
-	//Called once the user has completed the voice command
+
+	// Called once the user has completed the voice command
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 0 && resultCode == RESULT_OK) {
-			List<String> results = data
-					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			String spokenText = results.get(0);
 
 			if (spokenText == null) {
@@ -58,8 +57,8 @@ public class VoiceActivity extends Activity {
 				contentView.setText(spokenText);
 				return;
 			}
-			
-			//Delegate server request, pass in the URL
+
+			// Delegate server request, pass in the URL
 			new RequestBrandDataTask(getApplicationContext()).execute(
 					PropertiesManager.getProperty("brandwatch_url"), spokenText);
 		}
@@ -82,7 +81,7 @@ public class VoiceActivity extends Activity {
 
 			@Override
 			public boolean onGesture(Gesture gesture) {
-				//User entered application
+				// User entered application
 				if (gesture == Gesture.TAP) {
 					openVoicePrompt();
 					return true;
@@ -95,7 +94,7 @@ public class VoiceActivity extends Activity {
 		return gestureDetector;
 	}
 
-	//Start intent to show voice prompt
+	// Start intent to show voice prompt
 	private void openVoicePrompt() {
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		startActivityForResult(intent, 0);

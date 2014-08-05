@@ -32,23 +32,23 @@ public class Camfind extends AsyncTask<File, Void, String> {
 		return getImageName(token);
 	}
 
-	//Get image token from the Camfind API from the uploaded image
+	// Get image token from the Camfind API from the uploaded image
 	private String getImageToken(File[] image) {
 
 		String token = "";
 		String url = PropertiesManager.getProperty("image_request_url");
 		String testImageUrl = "http://upload.wikimedia.org/wikipedia/en/2/2d/Mashape_logo.png";
 
-		//Set up parameters for POST request
+		// Set up parameters for POST request
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>(2);
 		parameters.add(new BasicNameValuePair("image_request[locale]", "en_US"));
 		parameters.add(new BasicNameValuePair("image_request[remote_image_url]", testImageUrl));
 
-		//Make the POST request
+		// Make the POST request
 		HttpResponse response = HttpRequest.doHttpPost(url, getHeaders(), parameters);
 
 		try {
-			//Get token from the JSON response
+			// Get token from the JSON response
 			JSONObject jObject = new JSONObject(EntityUtils.toString(response.getEntity()));
 			token = jObject.getString("token");
 		} catch (Exception e) {
@@ -64,7 +64,7 @@ public class Camfind extends AsyncTask<File, Void, String> {
 		return token;
 	}
 
-	//Use image token from POST request to get the name
+	// Use image token from POST request to get the name
 	private String getImageName(String token) {
 
 		String name = null;
@@ -72,19 +72,21 @@ public class Camfind extends AsyncTask<File, Void, String> {
 		Boolean completed = false;
 		int attempts = 5;
 
-		//Only attempt 5 requests to reduce API calls while the response is not complete
+		// Only attempt 5 requests to reduce API calls while the response is not
+		// complete
 		while (attempts != 0 && completed == false) {
 			HttpResponse response = makeGetRequest(token);
 
-			//If the response is not null, parse the JSON response
+			// If the response is not null, parse the JSON response
 			if (response != null && response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				try {
 					String responseString = EntityUtils.toString(response.getEntity());
 					Log.v(TAG, "Requesting image get response " + responseString);
 
 					JSONObject jObject = new JSONObject(responseString);
-					
-					//If the status is completed, get the name from the JSON response
+
+					// If the status is completed, get the name from the JSON
+					// response
 					if (jObject.getString("status").equals("completed")) {
 						completed = true;
 						name = jObject.getString("name");
@@ -95,7 +97,8 @@ public class Camfind extends AsyncTask<File, Void, String> {
 				}
 			}
 
-			//If the status is incomplete, sleep for 5 seconds to reduce API calls
+			// If the status is incomplete, sleep for 5 seconds to reduce API
+			// calls
 			if (completed == false) {
 				attempts--;
 				SystemClock.sleep(5000);
@@ -104,13 +107,13 @@ public class Camfind extends AsyncTask<File, Void, String> {
 		return name;
 	}
 
-	//Get the headers for the Camfind API
+	// Get the headers for the Camfind API
 	private Header[] getHeaders() {
 		String key = PropertiesManager.getProperty("mashape_key");
 		return new Header[] { new BasicHeader("X-Mashape-Key", key) };
 	}
 
-	//Delegate the GET request to the HttpRequest, passing the URL
+	// Delegate the GET request to the HttpRequest, passing the URL
 	private HttpResponse makeGetRequest(String token) {
 
 		Log.v(TAG, "Requesting image get response with token " + token);
@@ -121,7 +124,7 @@ public class Camfind extends AsyncTask<File, Void, String> {
 		return HttpRequest.doHttpGet(url, getHeaders());
 	}
 
-	//Called after each HTTP request
+	// Called after each HTTP request
 	protected void onPostExecute(String productName) {
 		if (productName == null) {
 			Log.v(TAG, "Could not find product name");

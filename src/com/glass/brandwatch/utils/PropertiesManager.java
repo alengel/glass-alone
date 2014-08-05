@@ -15,7 +15,7 @@ public class PropertiesManager {
 
 	public static void init(Context context, int resourceID) {
 		Log.v(TAG, "Load properties file with id " + resourceID);
-		
+
 		try {
 			InputStream rawResource = context.getResources().openRawResource(resourceID);
 			properties.load(rawResource);

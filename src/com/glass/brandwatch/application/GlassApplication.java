@@ -9,8 +9,9 @@ public class GlassApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
-		//Initialize the configuration file once, so that it's properties are accessible
+
+		// Initialize the configuration file once, so that it's properties are
+		// accessible
 		PropertiesManager.init(getApplicationContext(), R.raw.config);
 	}
 }

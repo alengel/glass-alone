@@ -14,20 +14,12 @@
         android:layout_marginRight="@dimen/glass_card_margin"
         tools:ignore="UselessLeaf" >
 
-        <TableLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:stretchColumns="1">
-		    <TableRow>
-		        <TextView
-		            android:id="@+id/features_color"
-		            android:textSize="30sp" />
-		        <TextView
-		            android:id="@+id/features_value"
-		            android:textSize="30sp"
-		            android:gravity="right" />
-		    </TableRow>
-		</TableLayout>
+        <ListView
+            android:id="@+id/features_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"  >
+        </ListView>
 
     </RelativeLayout>
 
