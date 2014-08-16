@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.glass.brandwatch.R;
@@ -24,6 +25,7 @@ public class ActivateVoiceActivity extends Activity {
 		mGestureDetector = createGestureDetector(this);
 
 		// Open the main voice activity showing the speech recognition screen
+		Log.v("VoiceActivity", "Starting application");
 		openVoiceActivity();
 	}
 

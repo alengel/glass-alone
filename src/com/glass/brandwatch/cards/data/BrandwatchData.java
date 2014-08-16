@@ -18,6 +18,7 @@ import com.google.gson.JsonParser;
 public class BrandwatchData {
 	private static String TAG = "BrandwatchData";
 
+	// Get the queryId for the requested query
 	public static String getBrandwatchQueryId(String url, String query) {
 		Log.i(TAG, String.format("Requesting queryId for query '%s'", query));
 		String queryUrl = buildQueryUrl(url, query);
@@ -26,18 +27,26 @@ public class BrandwatchData {
 		return results.get("id").toString();
 	}
 
+	// Get sentiment data for the passed in queryId
 	public static String getSentimentData(String url, String queryId) {
 		Log.i(TAG, String.format("Requesting sentiment data for queryId '%s'", queryId));
 		String sentimentUrl = buildSentimentUrl(url, queryId);
-		return getData(sentimentUrl);
+		String results = getData(sentimentUrl);
+		;
+		Log.v(TAG, "Sentiment results");
+		return results;
 	}
 
+	// Get topics data for the passed in queryId
 	public static String getTopicsData(String url, String queryId) {
 		Log.i(TAG, String.format("Requesting topics data for queryId '%s'", queryId));
-		String topicstUrl = buildTopicsUrl(url, queryId);
-		return getData(topicstUrl);
+		String topicsUrl = buildTopicsUrl(url, queryId);
+		String results = getData(topicsUrl);
+		Log.v(TAG, "Topics results");
+		return results;
 	}
 
+	// Make generic HTTP request to the passed in URL
 	private static String getData(String url) {
 		// Delegate the GET request to HttpRequest
 		HttpResponse response = HttpRequest.doHttpGet(url, null);
@@ -52,16 +61,26 @@ public class BrandwatchData {
 		return null;
 	}
 
+	// Build up the Brandwatch queryId URL
+	private static String buildQueryUrl(String url, String query) {
+		String brandwatchKey = PropertiesManager.getProperty("brandwatch_auth");
+		return url + "queries/?" + brandwatchKey + "&nameContains=" + query.replace(' ', '+');
+	}
+
+	// Build up the Brandwatch sentiment URL
 	private static String buildSentimentUrl(String url, String queryId) {
 		String sentimentUrl = "data/volume/months/sentiment/?";
 		return url + sentimentUrl + buildFilters() + queryId;
 	}
 
+	// Build up the Brandwatch topics URL
 	private static String buildTopicsUrl(String url, String queryId) {
 		String topicsUrl = "data/volume/topics/queries/?";
 		return url + topicsUrl + buildFilters() + queryId;
 	}
 
+	// Build the filters for Brandwatch queries to get a subset of the data
+	// This subset requests a weeks worth of data
 	private static String buildFilters() {
 		String brandwatchKey = PropertiesManager.getProperty("brandwatch_auth");
 		String startDate = DateHelper.getDateSevenDaysAgo();
@@ -71,11 +90,7 @@ public class BrandwatchData {
 		return brandwatchKey + filters;
 	}
 
-	private static String buildQueryUrl(String url, String query) {
-		String brandwatchKey = PropertiesManager.getProperty("brandwatch_auth");
-		return url + "queries/?" + brandwatchKey + "&nameContains=" + query.replace(' ', '+');
-	}
-
+	// Turn the JSON string response into a JSONObject
 	private static JsonObject getResults(String responseString) {
 		JsonElement jElement = new JsonParser().parse(responseString);
 		JsonObject jObject = jElement.getAsJsonObject();

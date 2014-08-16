@@ -39,14 +39,13 @@ public class ActivateTakePictureActivity extends Activity {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(intent, TAKE_PICTURE_REQUEST);
 
-		// Temporary commented out to avoid API calls
+		// Temporarily commented out to avoid API calls
 		Log.i("ActivateTakePictureActivity", "making request");
-		// new Camfind().execute();
+		// new CamfindTask(getApplicationContext()).execute();
 	}
 
 	/**
-	 * Called when image is taken and user accepted image Currently (July 31st,
-	 * 2014) broken by
+	 * Currently (July 31st, 2014) broken by
 	 * https://code.google.com/p/google-glass-api/issues/detail?id=555
 	 **/
 	@Override
@@ -66,7 +65,7 @@ public class ActivateTakePictureActivity extends Activity {
 
 		// When file is written, make image recognition request to Camfind API
 		if (pictureFile.exists()) {
-			new Camfind().execute(pictureFile);
+			new CamfindTask(getApplicationContext()).execute(pictureFile);
 
 			// When the image not ready, inform user by showing a progress bar
 		} else {

@@ -22,21 +22,24 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 		this.context = context.getApplicationContext();
 	}
 
-	// Called by execute() - initializes this class
+	// Called by execute() in previous class, extract parameters
 	protected ArrayList<String> doInBackground(String... parameters) {
 		ArrayList<String> results = new ArrayList<String>();
 		url = parameters[0];
 		query = parameters[1];
 
+		// Get the query id
 		String queryId = BrandwatchData.getBrandwatchQueryId(url, query);
-		results.add(Semantics3Data.getData(query));
+
+		// Add the results of the requests as strings to the array
+		results.add(Semantics3Data.getFeaturesData(query));
 		results.add(BrandwatchData.getSentimentData(url, queryId));
 		results.add(BrandwatchData.getTopicsData(url, queryId));
-
+		Log.v(TAG, "got all results");
 		return results;
 	}
 
-	// Called after each HTTP request
+	// Called automatically after each HTTP request
 	protected void onPostExecute(ArrayList<String> data) {
 		if (data != null) {
 			Log.v(TAG, String.format("Request for query '%s' succedeed", query));
@@ -46,6 +49,7 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 		}
 	}
 
+	// Start the new activity and pass the data array as parameters
 	private void showCardsActivity(ArrayList<String> data) {
 		Intent intent = new Intent(context, CardBundleActivity.class);
 		intent.putStringArrayListExtra("data", data);

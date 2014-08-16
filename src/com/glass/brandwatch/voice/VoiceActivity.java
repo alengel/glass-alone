@@ -58,6 +58,8 @@ public class VoiceActivity extends Activity {
 				return;
 			}
 
+			Log.v(TAG, "processed voice");
+
 			// Delegate server request, pass in the URL
 			new RequestBrandDataTask(getApplicationContext()).execute(
 					PropertiesManager.getProperty("brandwatch_url"), spokenText);

@@ -16,15 +16,22 @@ import org.apache.http.util.EntityUtils;
 //import org.apache.http.entity.mime.content.FileBody;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.glass.brandwatch.asynctask.RequestBrandDataTask;
 import com.glass.brandwatch.utils.HttpRequest;
 import com.glass.brandwatch.utils.PropertiesManager;
 
-public class Camfind extends AsyncTask<File, Void, String> {
+public class CamfindTask extends AsyncTask<File, Void, String> {
 	private static final String TAG = "Camfind";
+	private Context context;
+
+	public CamfindTask(Context context) {
+		this.context = context.getApplicationContext();
+	}
 
 	// Called from execute() - initializes this class
 	protected String doInBackground(File... image) {
@@ -130,6 +137,9 @@ public class Camfind extends AsyncTask<File, Void, String> {
 			Log.v(TAG, "Could not find product name");
 		} else {
 			Log.v(TAG, "Found product name " + productName);
+
+			new RequestBrandDataTask(context).execute(
+					PropertiesManager.getProperty("brandwatch_url"), "iPhone 5");
 		}
 	}
 }

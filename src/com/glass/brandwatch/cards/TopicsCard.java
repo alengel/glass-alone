@@ -63,7 +63,8 @@ public class TopicsCard {
 		}
 	}
 
-	// Create a Data class that is a list of topics
+	// Private classes used to build an object representation
+	// of the returned topics JSON
 	private class Data {
 		public List<Topic> topics;
 	}
