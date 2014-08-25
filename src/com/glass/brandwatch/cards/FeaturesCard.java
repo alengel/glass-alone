@@ -1,6 +1,5 @@
 package com.glass.brandwatch.cards;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +48,6 @@ public class FeaturesCard {
 	// Create a product class for each product
 	private class Product {
 		public String name;
-		public BigDecimal price;
 		public String color;
 		public Map<String, String> features;
 	}

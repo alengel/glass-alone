@@ -19,7 +19,7 @@ import com.google.android.glass.touchpad.GestureDetector;
 
 public class VoiceActivity extends Activity {
 
-	private static final String TAG = "VoiceActivity";
+	private static final String TAG = VoiceActivity.class.getSimpleName();
 
 	// For tap events
 	private GestureDetector mGestureDetector;
@@ -57,7 +57,9 @@ public class VoiceActivity extends Activity {
 				contentView.setText(spokenText);
 				return;
 			}
-
+			
+			Log.i(TAG, "Measurement " + "Retrieved voice string and making data requests");
+			
 			// Delegate server request, pass in the URL
 			new RequestBrandDataTask(getApplicationContext()).execute(
 					PropertiesManager.getProperty("brandwatch_url"), spokenText);

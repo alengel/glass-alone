@@ -43,7 +43,7 @@
         
         <!-- Image Recognition Activity -->
 		<activity
-            android:name="com.glass.brandwatch.picture.ActivateTakePictureActivity"
+            android:name="com.glass.brandwatch.picture.ActivatePictureActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/activate_picture" >
             

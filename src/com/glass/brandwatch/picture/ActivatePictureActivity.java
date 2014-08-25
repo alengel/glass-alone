@@ -15,9 +15,10 @@ import com.google.android.glass.media.CameraManager;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 
-public class ActivateTakePictureActivity extends Activity {
+public class ActivatePictureActivity extends Activity {
+	private static final String TAG = ActivatePictureActivity.class.getSimpleName();
 	private static final int TAKE_PICTURE_REQUEST = 1;
-
+	
 	// For tap events
 	private GestureDetector mGestureDetector;
 
@@ -39,9 +40,8 @@ public class ActivateTakePictureActivity extends Activity {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(intent, TAKE_PICTURE_REQUEST);
 
-		// Temporary commented out to avoid API calls
-		Log.i("ActivateTakePictureActivity", "making request");
-		// new Camfind().execute();
+		Log.i(TAG, "making request");
+		new CamfindTask(getApplicationContext()).execute();
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class ActivateTakePictureActivity extends Activity {
 
 		// When file is written, make image recognition request to Camfind API
 		if (pictureFile.exists()) {
-			new Camfind().execute(pictureFile);
+			new CamfindTask(getApplicationContext()).execute(pictureFile);
 
 			// When the image not ready, inform user by showing a progress bar
 		} else {

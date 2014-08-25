@@ -16,26 +16,41 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class BrandwatchData {
-	private static String TAG = "BrandwatchData";
+	private static final String TAG = BrandwatchData.class.getSimpleName();
 
 	public static String getBrandwatchQueryId(String url, String query) {
-		Log.i(TAG, String.format("Requesting queryId for query '%s'", query));
+		Log.i(TAG, "Measurement " + String.format("Requesting queryId for query '%s'", query));
+
 		String queryUrl = buildQueryUrl(url, query);
 		String data = getData(queryUrl);
 		JsonObject results = getResults(data);
-		return results.get("id").toString();
+		String resultsString = results.get("id").toString();
+		
+		Log.i(TAG, "Measurement " + "Received queryId");
+		
+		return resultsString;
 	}
 
 	public static String getSentimentData(String url, String queryId) {
-		Log.i(TAG, String.format("Requesting sentiment data for queryId '%s'", queryId));
+		Log.i(TAG, "Measurement " + String.format("Requesting sentiment data for queryId '%s'", queryId));
+
 		String sentimentUrl = buildSentimentUrl(url, queryId);
-		return getData(sentimentUrl);
+		String data = getData(sentimentUrl);
+		
+		Log.i(TAG, "Measurement " + "Receiving sentiment");
+		
+		return data;
 	}
 
 	public static String getTopicsData(String url, String queryId) {
-		Log.i(TAG, String.format("Requesting topics data for queryId '%s'", queryId));
+		Log.i(TAG, "Measurement " + String.format("Requesting topics data for queryId '%s'", queryId));
+
 		String topicstUrl = buildTopicsUrl(url, queryId);
-		return getData(topicstUrl);
+		String data = getData(topicstUrl);
+		
+		Log.i(TAG, "Measurement " + "Receiving topics");
+		
+		return data;
 	}
 
 	private static String getData(String url) {

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.text.WordUtils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +15,6 @@ import com.google.gson.Gson;
 public class SentimentCard {
 
 	public static View build(Context context, String sentimentData) {
-
 		Data data = new Gson().fromJson(sentimentData, Data.class);
 
 		List<Value> results = data.results.get(0).values;
@@ -33,12 +33,22 @@ public class SentimentCard {
 
 		volume.setText("Volume");
 		volumeValue.setText(volumeCount.toString());
-
-		negative.setText(WordUtils.capitalize(results.get(1).name));
-		negativeValue.setText(results.get(1).value.toString());
-
-		positive.setText(WordUtils.capitalize(results.get(2).name));
-		positiveValue.setText(results.get(2).value.toString());
+		
+		Log.v("sentiment results size ", Integer.toString(results.size()));
+		for (int i = 0; i < results.size(); i++) {
+			Value sentiment = results.get(i);
+			
+			//Set positive textview with values from data
+			if(sentiment.name.equals("positive")) {
+				positive.setText(WordUtils.capitalize(sentiment.name));
+				positiveValue.setText(sentiment.value.toString());
+			}
+			//Set negative textview with values from data
+			if(sentiment.name.equals("negative")) {
+				negative.setText(WordUtils.capitalize(sentiment.name));
+				negativeValue.setText(sentiment.value.toString());
+			}
+		}
 
 		TextView footer = (TextView) view.findViewById(R.id.sentiment_footer);
 		footer.setText("Brandwatch");

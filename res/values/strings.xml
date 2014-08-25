@@ -8,7 +8,7 @@
     <string name="voice_activity">Say product here</string>
     <string name="taking_picture_activity">Take picture here</string>
     
-    <string name="voice_content">You\'re looking for </string>
+    <string name="voice_content">Please wait&#8230;</string>
     <string name="taking_picture_content">Taking a picture</string>
 
     <!-- For voice input -->

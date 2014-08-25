@@ -3,6 +3,7 @@
 	<name>glass</name>
 	<comment></comment>
 	<projects>
+		<project>glass-shared</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
