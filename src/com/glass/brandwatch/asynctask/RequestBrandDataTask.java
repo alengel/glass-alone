@@ -23,6 +23,7 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 	}
 
 	// Called by execute() - initializes this class
+	@Override
 	protected ArrayList<String> doInBackground(String... parameters) {
 		ArrayList<String> results = new ArrayList<String>();
 		url = parameters[0];
@@ -37,6 +38,7 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 	}
 
 	// Called after each HTTP request
+	@Override
 	protected void onPostExecute(ArrayList<String> data) {
 		if (data != null) {
 			Log.v(TAG, String.format("Request for query '%s' succedeed", query));

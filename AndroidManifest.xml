@@ -20,7 +20,7 @@
         
         <!-- Speech Recognition Activity -->
         <activity
-            android:name="com.glass.brandwatch.voice.ActivateVoiceActivity"
+            android:name="com.glass.brandwatch_shared.voice.ActivateVoiceActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/activate_voice" >
             
@@ -35,7 +35,7 @@
         </activity>
         
         <activity
-            android:name="com.glass.brandwatch.voice.VoiceActivity"
+            android:name="com.glass.brandwatch_shared.voice.VoiceActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/voice_activity" >
         </activity> 
@@ -43,7 +43,7 @@
         
         <!-- Image Recognition Activity -->
 		<activity
-            android:name="com.glass.brandwatch.picture.ActivatePictureActivity"
+            android:name="com.glass.brandwatch_shared.picture.ActivatePictureActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/activate_picture" >
             
@@ -55,6 +55,12 @@
                 android:name="com.google.android.glass.VoiceTrigger"
                 android:resource="@xml/voicetrigger" />
             
+        </activity>
+        
+		<activity
+            android:name="com.glass.brandwatch.application.WaitActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name" >
         </activity>
         
 		<activity
