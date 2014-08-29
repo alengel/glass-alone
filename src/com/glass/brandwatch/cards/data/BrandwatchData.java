@@ -24,6 +24,12 @@ public class BrandwatchData {
 		String queryUrl = buildQueryUrl(url, query);
 		String data = getData(queryUrl);
 		JsonObject results = getResults(data);
+
+		if (results == null) {
+			Log.v(TAG, "no matching query was found");
+			return "querynotfound";
+		}
+
 		String resultsString = results.get("id").toString();
 
 		Log.i(TAG, "Measurement " + "Received queryId");
@@ -98,8 +104,13 @@ public class BrandwatchData {
 		JsonElement jElement = new JsonParser().parse(responseString);
 		JsonObject jObject = jElement.getAsJsonObject();
 		JsonArray jArray = jObject.getAsJsonArray("results");
-		jObject = jArray.get(0).getAsJsonObject();
 
+		// return early if there are no matching queries in Brandwatch
+		if (jArray.size() == 0) {
+			return null;
+		}
+
+		jObject = jArray.get(0).getAsJsonObject();
 		return jObject;
 	}
 }

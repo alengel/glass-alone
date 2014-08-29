@@ -7,10 +7,9 @@ import android.util.Log;
 
 import com.glass.brandwatch.R;
 import com.glass.brandwatch.asynctask.RequestBrandDataTask;
-import com.glass.brandwatch_shared.interfaces.WaitActivityInterface;
 import com.glass.brandwatch_shared.utils.PropertiesManager;
 
-public class WaitActivity extends Activity implements WaitActivityInterface {
+public class WaitActivity extends Activity {
 	static final private String TAG = WaitActivity.class.getSimpleName();
 
 	@Override
@@ -27,8 +26,20 @@ public class WaitActivity extends Activity implements WaitActivityInterface {
 		Intent intent = getIntent();
 		String query = intent.getStringExtra("query");
 
-		// Delegate server request, pass in the URL
+		// Pass the URL and product name to the Brandwatch server requests
 		new RequestBrandDataTask(getApplicationContext()).execute(
 				PropertiesManager.getProperty("brandwatch_url"), query);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		finish();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		finish();
 	}
 }

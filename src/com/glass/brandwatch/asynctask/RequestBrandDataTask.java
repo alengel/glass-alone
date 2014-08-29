@@ -10,6 +10,7 @@ import android.util.Log;
 import com.glass.brandwatch.cards.CardBundleActivity;
 import com.glass.brandwatch.cards.data.BrandwatchData;
 import com.glass.brandwatch.cards.data.Semantics3Data;
+import com.glass.brandwatch_shared.info.NotFoundActivity;
 
 public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<String>> {
 
@@ -30,6 +31,12 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 		query = parameters[1];
 
 		String queryId = BrandwatchData.getBrandwatchQueryId(url, query);
+
+		if (queryId == "querynotfound") {
+			showQueryNotFoundActivity();
+			return null;
+		}
+
 		results.add(Semantics3Data.getData(query));
 		results.add(BrandwatchData.getSentimentData(url, queryId));
 		results.add(BrandwatchData.getTopicsData(url, queryId));
@@ -51,6 +58,14 @@ public class RequestBrandDataTask extends AsyncTask<String, Void, ArrayList<Stri
 	private void showCardsActivity(ArrayList<String> data) {
 		Intent intent = new Intent(context, CardBundleActivity.class);
 		intent.putStringArrayListExtra("data", data);
+		intent.putExtra("queryName", query);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+	}
+
+	private void showQueryNotFoundActivity() {
+		Intent intent = new Intent(context, NotFoundActivity.class);
+		intent.putExtra("queryName", query);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
